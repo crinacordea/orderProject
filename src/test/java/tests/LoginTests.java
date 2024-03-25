@@ -1,5 +1,6 @@
 package tests;
 
+import constants.Constants;
 import org.junit.Assert;
 import org.junit.Test;
 import org.openqa.selenium.WebDriver;
@@ -8,7 +9,6 @@ import pages.LandingPage;
 import pages.LoginFirstPage;
 
 import java.util.concurrent.TimeUnit;
-import org.testng.asserts.SoftAssert;
 import pages.LoginSecondPage;
 
 public class LoginTests {
@@ -28,13 +28,12 @@ public void logIn()  {
     loginSecondPage.enterPassword(Utils.password);
     loginSecondPage.pressSubmitButton();
     Assert.assertTrue(landingPage.isLoginButtonDisplayed());
-    driver.close();
+    driver.quit();
 }
 
 @Test()
 
-public void loginWithBadCredentials()  {
-    SoftAssert softAssert = new SoftAssert();
+public void loginWithBadEmail()  {
     driver.get(Utils.BASE_URL);
     driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
     LandingPage landingPage = new LandingPage(driver);
@@ -44,10 +43,25 @@ public void loginWithBadCredentials()  {
     String badEmail = "test@";
     loginFirstPage.enterEmail(badEmail);
     loginFirstPage.pressNextButton();
-    softAssert.assertTrue(loginFirstPage.isErrorMessageDisplayed(),"Error message is not displayed");
-    softAssert.assertEquals(badEmail,loginFirstPage.getEmail(),"The email address:"  + badEmail + "is not displayed in email input field.");
-    softAssert.assertAll();
-    driver.close();
+    Assert.assertEquals(loginFirstPage.getEmail(), Constants.Login.WRONG_EMAIL_ERROR_MESSAGE,Constants.Login.WRONG_EMAIL_ERROR_MESSAGE + " is not equal to " + loginFirstPage.getErrorMessage());
+    driver.quit();
 }
+    @Test()
 
+    public void loginWithBadPassword()  {
+        driver.get(Utils.BASE_URL);
+        driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
+        LandingPage landingPage = new LandingPage(driver);
+        landingPage.clickAcceptTermsButton();
+        landingPage.clickLoginButton();
+        LoginFirstPage loginFirstPage = new LoginFirstPage(driver);
+        loginFirstPage.enterEmail(Utils.username);
+        loginFirstPage.pressNextButton();
+        LoginSecondPage loginSecondPage = new LoginSecondPage(driver);
+        String badPass= "test";
+        loginSecondPage.enterPassword(badPass);
+        loginSecondPage.pressSubmitButton();
+        Assert.assertTrue(loginSecondPage.isErrorMessageDisplayed() );
+        driver.quit();
+    }
 }

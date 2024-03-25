@@ -9,8 +9,8 @@ import java.time.Duration;
 
 public class ManipulateLocaters extends PageObject {
 
-    public ManipulateLocaters(WebDriver driver) {
-        super(driver);
+    public ManipulateLocaters(WebDriver driver) {super(driver);
+
     }
     public   WebDriverWait waitelement = new WebDriverWait(driver, Duration.ofSeconds(5), Duration.ofMillis(500) );
 

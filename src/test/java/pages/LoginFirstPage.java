@@ -25,15 +25,16 @@ public class LoginFirstPage extends PageObject {
         waitelement.clickOnElement(nextBtnBy);
     }
 
-    public boolean isErrorMessageDisplayed()  {
-        return waitelement.isElementDisplayed(errorMessage);
 
-    }
 
     public String getEmail() {
       return  driver.findElement(emailBy).getAttribute("value");
 
 
+    }
+
+    public  String getErrorMessage(){
+        return  driver.findElement(errorMessage).getText();
     }
 
 

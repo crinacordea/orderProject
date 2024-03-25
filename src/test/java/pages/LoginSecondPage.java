@@ -8,6 +8,7 @@ import pageObject.PageObject;
 public class LoginSecondPage extends PageObject {
     private final By passwordBy = By.id("field_Password");
     private final By submitBtnBy= By.id("button_submit");
+    private final By errorMessage = By.xpath("//*[@class='input-error-message' ]/p");
     public LoginSecondPage(WebDriver driver) {
         super(driver);
     }
@@ -20,5 +21,9 @@ public class LoginSecondPage extends PageObject {
         waitelement.clickOnElement(submitBtnBy);
     }
 
+    public boolean isErrorMessageDisplayed()  {
+        return waitelement.isElementDisplayed(errorMessage);
+
+    }
 }
 
