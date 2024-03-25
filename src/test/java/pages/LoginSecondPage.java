@@ -25,5 +25,10 @@ public class LoginSecondPage extends PageObject {
         return waitelement.isElementDisplayed(errorMessage);
 
     }
+
+    public  String getErrorMessage(){
+        return  driver.findElement(errorMessage).getText();
+    }
+
 }
 

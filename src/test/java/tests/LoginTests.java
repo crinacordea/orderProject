@@ -1,6 +1,8 @@
 package tests;
 
 import constants.Constants;
+import org.hamcrest.CoreMatchers;
+import org.hamcrest.MatcherAssert;
 import org.junit.Assert;
 import org.junit.Test;
 import org.openqa.selenium.WebDriver;
@@ -10,6 +12,9 @@ import pages.LoginFirstPage;
 
 import java.util.concurrent.TimeUnit;
 import pages.LoginSecondPage;
+
+import static org.hamcrest.CoreMatchers.anyOf;
+import static org.hamcrest.CoreMatchers.containsString;
 
 public class LoginTests {
     private static final WebDriver driver = new ChromeDriver();
@@ -62,6 +67,7 @@ public void loginWithBadEmail()  {
         loginSecondPage.enterPassword(badPass);
         loginSecondPage.pressSubmitButton();
         Assert.assertTrue(loginSecondPage.isErrorMessageDisplayed() );
+        MatcherAssert.assertThat(loginSecondPage.getErrorMessage(), anyOf( containsString(Constants.Login.WRONG_EMAIL_ERROR_MESSAGE),containsString(Constants.Login.SECURITY_WRONG_ERROR_MESSAGE)));
         driver.quit();
     }
 }
